@@ -4,6 +4,7 @@ const { createApp } = Vue;
 const app = createApp({
     data() {
         return {
+            activeContact: null,
             contacts: [
                 {
                     name: 'Michele',
@@ -170,6 +171,15 @@ const app = createApp({
         }
     },
     methods: {
+        //funzione per fare vedere il contatto attivo
+        showActiveMsg(contact) {
+            this.activeContact = contact;
+        },
+
+        //funzione per fare vedere ultimo access
+        lastAccess(contact) {
+            return '15:30'; 
+        },
         // Funzione per ottenere l'ultimo messaggio di un contatto
         lastMessage(contact) {
             if (contact.messages.length > 0) {
@@ -180,6 +190,12 @@ const app = createApp({
             }
         }
     },
+    mounted() {
+        // Impostiamo il primo contatto come attivo quando apri l app
+        if (this.contacts.length > 0) {
+            this.activeContact = this.contacts[0];
+        }
+    }
 
 })
 

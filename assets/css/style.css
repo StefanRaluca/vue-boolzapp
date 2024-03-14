@@ -108,42 +108,10 @@ body {
       
     }
 }
-
-
-.time {
-    position: absolute;
-    top: 12px;
-    right: 15px;
-    font-size: 12px;
+.time{
+    display: flex;
+justify-content: end;
 }
-
-
-.details_msg {
-    font-size: 15px;
-    position: absolute;
-    width: 180px;
-    top: 40px;
-    right: 0;
-    padding: 10px;
-    text-align: center;
-    color: var(--boolzapp--dark);
-    display: none;
-    background-color: var(--boolzapp--light);
-}
-
-ul {
-    list-style: none;
-}
-
-
-li {
-    padding: 10px 0;
-}
-
-li:hover {
-    background-color: var(--boolzapp--light);
-}
-
 
 
 /* start section with user profile */

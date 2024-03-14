@@ -59,14 +59,14 @@
                 <!-- /.search -->
                 <div class="contacts_list">
 
-                    <div v-for="contact in contacts" class="contact d-flex ">
+                    <div v-for="contact in contacts" @click="showActiveMsg(contact)" :class="{ active: activeContact === contact }" class="contact d-flex">
                         <img :src="contact.avatar" alt="img">
 
 
 
                         <div class="msg_last d-flex flex-wrap ">
                             <h4>{{ contact.name }}</h4>
-                            <p class="mb-0">{{ lastMessage(contact) }}</p>
+                            <p>{{ lastMessage(contact) }}</p>
 
                         </div>
                     </div>
@@ -87,12 +87,12 @@
 
                     <div class="top_contact d-flex">
                         <div class="foto_contact">
-                            <img src="./assets/img/avatar_1_360.jpg" alt="">
+                            <img :src="activeContact ? activeContact.avatar : ''" alt="">
                         </div>
 
                         <div class="details d-flex">
-                            <h4>Michele</h4>
-                            <span>Ultimo accesso oggi alle 12:00</span>
+                            <h4>{{ activeContact ? activeContact.name : '' }}</h4>
+                            <span v-if="activeContact">Ultimo accesso oggi alle {{ lastAccess(activeContact) }}</span>
                         </div>
                     </div>
 
@@ -105,51 +105,19 @@
                 </div>
                 <!-- /.contact_profile -->
 
-                <div class="chat">
+               
 
 
-                    <div class="sent">
-                        <p>
-                            Hai portato a spasso il cane?
-
-                            <span class="time">
-                                15:30
-                            </span>
-
-                        </p>
-
+                    <div v-if="activeContact" class="chat">
+                        <div v-for="(message, index) in activeContact.messages"
+                             :class="{ sent: message.status === 'sent', received: message.status === 'received' }">
+                            <p>{{ message.message }}</p>
+                            <span class="time">{{ message.date }}</span>
+                        </div>
                     </div>
-                    <div class="sent">
-                        <p>
-                            Ricordati di stendere i panni
+                    
 
-                            <span class="time">
-                                15:50
-                            </span>
-
-
-
-                        </p>
-
-                    </div>
-                    <!-- /.sent -->
-
-                    <div class="received">
-                        <p>
-                            Tutto fatto!
-
-
-                            <span class="time">
-                                16:15
-                            </span>
-
-
-
-                        </p>
-                    </div>
-                    <!-- /.received -->
-
-                </div>
+              
                 <!-- /.chat -->
                 <div class="prompt d-flex">
 
