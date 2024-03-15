@@ -1,3 +1,8 @@
+
+
+let DateTime = luxon.DateTime;
+
+
 const { createApp } = Vue;
 
 
@@ -154,7 +159,7 @@ const app = createApp({
                     messages: [
                         {
                             date: '10/01/2020 15:30:55',
-                            message: 'Ciao, stasera?',
+                            message: 'Ciao, pizza stasera?',
                             status: 'received'
                         },
                         {
@@ -171,7 +176,7 @@ const app = createApp({
                 }
             ],
             msgNew: '',
-            searchValue: '', 
+            searchValue: '',
             optionsOfIndex: null,
         }
     },
@@ -183,18 +188,18 @@ const app = createApp({
         sentMsg() {
             if (this.msgNew.trim() !== '') {
                 this.activeContact.messages.push({
-                    date: new Date().toLocaleString(),
+                    date: DateTime.local().toFormat('HH:mm'),
                     message: this.msgNew,
                     status: 'sent'
                 });
 
                 // Reset input msg
                 this.msgNew = '';
-                
+
                 // function per la risposta con tempo di 1 sec
                 setTimeout(() => {
                     this.activeContact.messages.push({
-                        date: new Date().toLocaleString(),
+                        date: DateTime.local().toFormat('HH:mm'),
                         message: 'ok 😆!',
                         status: 'received'
                     });
@@ -207,19 +212,19 @@ const app = createApp({
 
         lastMessage(contact) {
             if (contact.messages.length > 0) {
-                const msgLast = contact.messages[contact.messages.length - 1];
-                return msgLast.message;
+                const lastMsg = contact.messages[contact.messages.length - 1];
+                return lastMsg.message;
             } else {
                 return 'Nessun messaggio';
             }
         },
         users(searchValue) {
             return this.contacts.filter(contact => contact.name.toLowerCase().includes(searchValue.toLowerCase()));
-          },
-          showOptions(index) {
+        },
+        showOptions(index) {
             //console.log('click', index);
             //console.log( this.optionsOfIndex);
-            
+
             this.optionsOfIndex = this.optionsOfIndex === index ? null : index;
             console.log('index nuovo', this.optionsOfIndex);
         },
@@ -231,30 +236,36 @@ const app = createApp({
         lastMessageDate(contact) {
             if (contact.messages.length > 0) {
                 const lastMsg = contact.messages[contact.messages.length - 1];
-                return lastMsg.date;
-            } else {
+                return DateTime.fromFormat(lastMsg.date, 'dd/MM/yyyy HH:mm:ss').toFormat('HH:mm'); 
+            } 
+            else {
                 return '';
             }
         },
+        //function per cambiare la data dei msg che stampiamo in pagina
+        formatMsgDate(date) {
+            return DateTime.fromFormat(date, 'dd/MM/yyyy HH:mm:ss').toFormat('hh:mm');
+        },
+    
         dataShow(index) {
             // se faccio nuovamente click le info spariscono 
             this.showDataTime = this.showDataTime === index ? null : index;
 
 
-           // this.showDataTime = index;
-      //console.log(this.showDataTime);
+            // this.showDataTime = index;
+            //console.log(this.showDataTime);
         },
         upOptions(index) {
             if (this.optionsOfIndex === index) {
-                // Chiudi menu c
+                // Chiudi menu 
                 this.optionsOfIndex = null;
             } else {
                 // Apri il menu delle opzioni per il msg
                 this.optionsOfIndex = index;
             }
         }
-        
-         
+
+
     },
     mounted() {
         if (this.contacts.length > 0) {

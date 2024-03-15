@@ -61,20 +61,22 @@
                 <div class="contacts_list">
 
                     <div v-for="contact in users(searchValue)" @click="showActiveMsg(contact)"
-                        :class="{ active: activeContact === contact }" class="contact d-flex">
-                        <img :src="contact.avatar" alt="img">
+                        :class="{ active: activeContact === contact }" class="contact ">
+                        <div class="d-flex">
+                            <img :src="contact.avatar" alt="img">
+                            <div class="msg_last d-flex flex-wrap">
 
 
 
-                        <div class="msg_last d-flex flex-wrap ">
-                            <div>
-                                <h4>{{ contact.name }}</h4>
+                                <h4 class="m-2">{{ contact.name }}</h4>
 
 
-                                <span>{{ lastMessageDate(contact) }}</span>
+                                <span class="m-2">{{lastMessageDate(contact) }}</span>
+
                             </div>
-                            <p>{{ lastMessage(contact) }}</p>
                         </div>
+
+                        <p>{{ lastMessage(contact) }}</p>
                     </div>
 
                 </div>
@@ -120,7 +122,8 @@
                         @click="showOptions(index)">
                         <i class="fa-solid fa-chevron-down chevron" @click.stop="upOptions(index)"></i>
                         <p>{{ message.message }}</p>
-                        <span class="time">{{ message.date }}</span>
+                        <span class="time">{{ formatMsgDate(message.date) }}</span>
+
                         <div v-if="optionsOfIndex === index" class="options-menu">
                             <button @click.stop="deleteMsg(index)">
                                 Delete message
@@ -152,6 +155,7 @@
     </div>
 
     <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/luxon@3.4.4/build/global/luxon.min.js"></script>
     <script src="./assets/js/app.js"></script>
 </body>
 

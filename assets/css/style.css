@@ -115,6 +115,7 @@ body {
 }
 
 
+
 /* start section with user profile */
 .user_profile {
     border-right: 1px solid lightgray;
@@ -361,6 +362,11 @@ body {
     position: absolute;
     right: 15px;
     top: 5px;
+}
+.msg_last{
+    flex-grow: 1;
+    justify-content: space-between;
+    align-items: center;
 }
 
 
