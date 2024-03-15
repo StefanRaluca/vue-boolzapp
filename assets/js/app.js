@@ -5,6 +5,7 @@ const app = createApp({
     data() {
         return {
             activeContact: null,
+            showDataTime: null,
 
             contacts: [
                 {
@@ -153,7 +154,7 @@ const app = createApp({
                     messages: [
                         {
                             date: '10/01/2020 15:30:55',
-                            message: 'Ciao, andiamo a mangiare la pizza stasera?',
+                            message: 'Ciao, stasera?',
                             status: 'received'
                         },
                         {
@@ -171,11 +172,13 @@ const app = createApp({
             ],
             msgNew: '',
             searchValue: '', 
+            optionsOfIndex: null,
         }
     },
     methods: {
         showActiveMsg(contact) {
             this.activeContact = contact;
+            this.optionsOfIndex = null;
         },
         sentMsg() {
             if (this.msgNew.trim() !== '') {
@@ -213,6 +216,45 @@ const app = createApp({
         users(searchValue) {
             return this.contacts.filter(contact => contact.name.toLowerCase().includes(searchValue.toLowerCase()));
           },
+          showOptions(index) {
+            //console.log('click', index);
+            //console.log( this.optionsOfIndex);
+            
+            this.optionsOfIndex = this.optionsOfIndex === index ? null : index;
+            console.log('index nuovo', this.optionsOfIndex);
+        },
+
+        deleteMsg(index) {
+            this.activeContact.messages.splice(index, 1);
+            this.optionsOfIndex = null;
+        },
+        lastMessageDate(contact) {
+            if (contact.messages.length > 0) {
+                const lastMsg = contact.messages[contact.messages.length - 1];
+                return lastMsg.date;
+            } else {
+                return '';
+            }
+        },
+        dataShow(index) {
+            // se faccio nuovamente click le info spariscono 
+            this.showDataTime = this.showDataTime === index ? null : index;
+
+
+           // this.showDataTime = index;
+      //console.log(this.showDataTime);
+        },
+        upOptions(index) {
+            if (this.optionsOfIndex === index) {
+                // Chiudi menu c
+                this.optionsOfIndex = null;
+            } else {
+                // Apri il menu delle opzioni per il msg
+                this.optionsOfIndex = index;
+            }
+        }
+        
+         
     },
     mounted() {
         if (this.contacts.length > 0) {

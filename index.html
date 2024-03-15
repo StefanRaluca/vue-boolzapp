@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="./assets/css/style.css">
 
+
     <link
         href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&display=swap"
         rel="stylesheet">
@@ -52,22 +53,27 @@
                 <div class="search d-flex">
 
                     <i class="fa-solid fa-magnifying-glass"></i>
-                    <input type="text" placeholder="Cerca o inizia una nuova chat" v-model="searchValue" >
+                    <input type="text" placeholder="Cerca o inizia una nuova chat" v-model="searchValue">
 
 
                 </div>
                 <!-- /.search -->
                 <div class="contacts_list">
 
-                    <div v-for="contact in users(searchValue)" @click="showActiveMsg(contact)" :class="{ active: activeContact === contact }" class="contact d-flex">
+                    <div v-for="contact in users(searchValue)" @click="showActiveMsg(contact)"
+                        :class="{ active: activeContact === contact }" class="contact d-flex">
                         <img :src="contact.avatar" alt="img">
 
 
 
                         <div class="msg_last d-flex flex-wrap ">
-                            <h4>{{ contact.name }}</h4>
-                            <p>{{ lastMessage(contact) }}</p>
+                            <div>
+                                <h4>{{ contact.name }}</h4>
 
+
+                                <span>{{ lastMessageDate(contact) }}</span>
+                            </div>
+                            <p>{{ lastMessage(contact) }}</p>
                         </div>
                     </div>
 
@@ -105,20 +111,32 @@
                 </div>
                 <!-- /.contact_profile -->
 
-               
 
 
-                    <div v-if="activeContact" class="chat">
-                        <div v-for="(message, index) in activeContact.messages"
-                             :class="{ sent: message.status === 'sent', received: message.status === 'received' }">
-                            <p>{{ message.message }}</p>
-                            <span class="time">{{ message.date }}</span>
+
+                <div v-if="activeContact" class="chat">
+                    <div v-for="(message, index) in activeContact.messages" :key="index"
+                        :class="{ sent: message.status === 'sent', received: message.status === 'received' }"
+                        @click="showOptions(index)">
+                        <i class="fa-solid fa-chevron-down chevron" @click.stop="upOptions(index)"></i>
+                        <p>{{ message.message }}</p>
+                        <span class="time">{{ message.date }}</span>
+                        <div v-if="optionsOfIndex === index" class="options-menu">
+                            <button @click.stop="deleteMsg(index)">
+                                Delete message
+                            </button>
+                            <button @click.stop="dataShow(index)">Show info</button>
+                            <span v-if="showDataTime === index" class="msg_details">
+                                Last message: {{ message.date }}
+                            </span>
                         </div>
                     </div>
-                    
 
-              
-                <!-- /.chat -->
+                </div>
+
+
+
+                <!-- chat -->
                 <div class="prompt d-flex">
 
                     <i class="fa-regular fa-face-smile col-1"></i>
@@ -126,7 +144,7 @@
                     <i class="fa-solid fa-microphone col-1"></i>
 
                 </div>
-                <!-- /.prompt -->
+
 
 
             </div>
