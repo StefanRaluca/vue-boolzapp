@@ -5,6 +5,7 @@ const app = createApp({
     data() {
         return {
             activeContact: null,
+
             contacts: [
                 {
                     name: 'Michele',
@@ -167,20 +168,38 @@ const app = createApp({
                         },
                     ],
                 }
-            ]
+            ],
+            msgNew: '',
         }
     },
     methods: {
-        //funzione per fare vedere il contatto attivo
         showActiveMsg(contact) {
             this.activeContact = contact;
         },
+        sentMsg() {
+            if (this.msgNew.trim() !== '') {
+                this.activeContact.messages.push({
+                    date: new Date().toLocaleString(),
+                    message: this.msgNew,
+                    status: 'sent'
+                });
 
-        //funzione per fare vedere ultimo access
-        lastAccess(contact) {
-            return '15:30'; 
+                // Reset input msg
+                this.msgNew = '';
+                
+                // function per la risposta con tempo di 1 sec
+                setTimeout(() => {
+                    this.activeContact.messages.push({
+                        date: new Date().toLocaleString(),
+                        message: 'ok 😆!',
+                        status: 'received'
+                    });
+                }, 1000);
+            }
         },
-        // Funzione per ottenere l'ultimo messaggio di un contatto
+        lastAccess(contact) {
+            return '15:30';
+        },
         lastMessage(contact) {
             if (contact.messages.length > 0) {
                 const msgLast = contact.messages[contact.messages.length - 1];
@@ -188,19 +207,15 @@ const app = createApp({
             } else {
                 return 'Nessun messaggio';
             }
-        }
+        },
     },
     mounted() {
-        // Impostiamo il primo contatto come attivo quando apri l app
         if (this.contacts.length > 0) {
             this.activeContact = this.contacts[0];
         }
     }
+});
 
-})
-
-app.mount('#app')
-
-
+app.mount('#app');
 
 console.log('ok');

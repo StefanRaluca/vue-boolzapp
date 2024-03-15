@@ -122,7 +122,7 @@
                 <div class="prompt d-flex">
 
                     <i class="fa-regular fa-face-smile col-1"></i>
-                    <input type="text" placeholder="Scrivi un messaggio">
+                    <input type="text" placeholder="Scrivi un messaggio" v-model="msgNew" @keyup.enter="sentMsg">
                     <i class="fa-solid fa-microphone col-1"></i>
 
                 </div>
