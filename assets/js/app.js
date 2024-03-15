@@ -170,6 +170,7 @@ const app = createApp({
                 }
             ],
             msgNew: '',
+            searchValue: '', 
         }
     },
     methods: {
@@ -200,6 +201,7 @@ const app = createApp({
         lastAccess(contact) {
             return '15:30';
         },
+
         lastMessage(contact) {
             if (contact.messages.length > 0) {
                 const msgLast = contact.messages[contact.messages.length - 1];
@@ -208,6 +210,9 @@ const app = createApp({
                 return 'Nessun messaggio';
             }
         },
+        users(searchValue) {
+            return this.contacts.filter(contact => contact.name.toLowerCase().includes(searchValue.toLowerCase()));
+          },
     },
     mounted() {
         if (this.contacts.length > 0) {

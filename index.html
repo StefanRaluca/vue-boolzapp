@@ -52,14 +52,14 @@
                 <div class="search d-flex">
 
                     <i class="fa-solid fa-magnifying-glass"></i>
-                    <input type="text" placeholder="Cerca o inizia una nuova chat">
+                    <input type="text" placeholder="Cerca o inizia una nuova chat" v-model="searchValue" >
 
 
                 </div>
                 <!-- /.search -->
                 <div class="contacts_list">
 
-                    <div v-for="contact in contacts" @click="showActiveMsg(contact)" :class="{ active: activeContact === contact }" class="contact d-flex">
+                    <div v-for="contact in users(searchValue)" @click="showActiveMsg(contact)" :class="{ active: activeContact === contact }" class="contact d-flex">
                         <img :src="contact.avatar" alt="img">
 
 
