@@ -65,7 +65,7 @@ body {
 
 .right {
     flex-grow: 1;
-    background-image: url('/assets/img/mine.jpg');
+ /*    background-image: url('/assets/img/mine.jpg'); */
 }
 
 .right .contact_profile {
@@ -299,7 +299,7 @@ body {
 
 /* start area chat with msg */
 .chat {
-    background-image: url(./img/mine.jpg);
+    background-image: url(/assets/img/mine.jpg);
     height: 100%;
     overflow-y: auto;
     padding: 2rem 4rem;
